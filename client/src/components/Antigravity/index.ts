@@ -34,7 +34,7 @@ export default class Particle {
     let top = this.position;
     let left =
       this.coordinates.x +
-      Math.sin((this.position * Math.PI) / this.steps) * this.siner;
+      Math.cos((this.position * Math.PI) / this.steps) * this.siner;
     this.item.css({
       transform:
         "translateX(" +
