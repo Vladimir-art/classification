@@ -3,23 +3,15 @@ import logo from "./logo.svg";
 import "./components/Antigravity"
 import "./App.css";
 import Header from "./components/Header";
+import Main from "./components/Main";
+import Footer from "./components/Footer";
 
 function App() {
-  // React.useEffect(() => {
-  //   const script = document.createElement("script");
-
-  //   script.src = "./components/Antigravity/index.js";
-  //   script.async = true;
-
-  //   document.body.appendChild(script);
-
-  //   return () => {
-  //     document.body.removeChild(script);
-  //   };
-  // }, []);
   return (
     <div className="App">
       <Header />
+      <Main />
+      <Footer />
     </div>
   );
 }

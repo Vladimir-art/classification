@@ -12,9 +12,11 @@ body {
   left: 0;
   top: 0;
   width: 90%;
+  height: 90%;
   background: inherit;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   color: white;
   z-index: 1;
 }
