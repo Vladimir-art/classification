@@ -11,7 +11,7 @@ const Header: FC = () => {
         display: "flex",
         alignItems: "center",
         padding: "1rem",
-        borderBottom: "1px solid rgba(255, 239, 213, .5)",
+        borderBottom: "1px solid rgba(255, 239, 213, .3)",
       }}
     >
       <Box
@@ -24,7 +24,7 @@ const Header: FC = () => {
         src={star}
       />
       <Typography variant="h1" align="center" fontSize="2rem" marginLeft="1rem">
-        Entertainment
+        Classification
       </Typography>
     </Box>
   );

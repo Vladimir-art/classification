@@ -17,7 +17,7 @@ const Footer: FC = () => {
         display: "flex",
         alignItems: "center",
         padding: "1rem",
-        borderTop: "1px solid rgba(255, 239, 213, .5)",
+        borderTop: "1px solid rgba(255, 239, 213, .3)",
       }}
     >
       <List component="nav" aria-label="main mailbox folders">
