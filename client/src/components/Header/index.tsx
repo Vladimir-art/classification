@@ -1,7 +1,28 @@
 import { FC } from "react";
+import { Box } from "@mui/material";
+import { Typography } from "@mui/material";
+import star from "../../image/star.png";
 
 const Header: FC = () => {
-  return <div>Hi</div>;
+  return (
+    <Box
+      component="header"
+      sx={{ display: "flex", alignItems: "center", padding: "1rem 1.5em" }}
+    >
+      <Box
+        component="img"
+        sx={{
+          height: 48,
+          width: 48,
+        }}
+        alt="star logo"
+        src={star}
+      />
+      <Typography variant="h1" align="center" fontSize="2rem" marginLeft="1rem">
+        Entertainment
+      </Typography>
+    </Box>
+  );
 };
 
 export default Header;
