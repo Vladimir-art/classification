@@ -7,7 +7,7 @@ const Header: FC = () => {
   return (
     <Box
       component="header"
-      sx={{ display: "flex", alignItems: "center", padding: "1rem 1.5em" }}
+      sx={{ display: "flex", alignItems: "center", padding: "1rem", borderBottom: "1px solid rgba(255, 239, 213, .5)" }}
     >
       <Box
         component="img"
