@@ -8,6 +8,7 @@ import {
   ListItemText,
 } from "@mui/material";
 import gitLogo from "../../image/git.png";
+import ImageBox from "../commonComponents/ImageBox";
 
 const Footer: FC = () => {
   return (
@@ -21,19 +22,15 @@ const Footer: FC = () => {
       }}
     >
       <List component="nav" aria-label="main mailbox folders">
-        <ListItemButton sx={{padding: 0, margin: 0}}>
+        <ListItemButton sx={{ padding: 0, margin: 0 }}>
           <ListItemIcon>
-            <Box
-              component="img"
-              sx={{
-                height: 48,
-                width: 48,
-              }}
-              alt="star logo"
-              src={gitLogo}
-            />
+            <ImageBox path={gitLogo} />
           </ListItemIcon>
-          <Link href="https://github.com/Vladimir-art" underline="hover" color="inherit">
+          <Link
+            href="https://github.com/Vladimir-art"
+            underline="hover"
+            color="inherit"
+          >
             Vladimir Ermolaev
           </Link>
         </ListItemButton>

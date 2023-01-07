@@ -2,6 +2,7 @@ import { FC } from "react";
 import { Box } from "@mui/material";
 import { Typography } from "@mui/material";
 import star from "../../image/star.png";
+import ImageBox from "../commonComponents/ImageBox";
 
 const Header: FC = () => {
   return (
@@ -14,15 +15,7 @@ const Header: FC = () => {
         borderBottom: "1px solid rgba(255, 239, 213, .3)",
       }}
     >
-      <Box
-        component="img"
-        sx={{
-          height: 48,
-          width: 48,
-        }}
-        alt="star logo"
-        src={star}
-      />
+      <ImageBox path={star} />
       <Typography variant="h1" align="center" fontSize="2rem" marginLeft="1rem">
         Classification
       </Typography>
