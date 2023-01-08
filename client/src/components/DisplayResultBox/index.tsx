@@ -4,10 +4,10 @@ import ImageBox from "../commonComponents/ImageBox";
 
 interface IDisplayResultBoxProps {
   imageSrc?: string;
+  isLoading?: boolean;
 }
 
-const DisplayResultBox: FC<IDisplayResultBoxProps> = ({ imageSrc }) => {
-  const isLoading = false;
+const DisplayResultBox: FC<IDisplayResultBoxProps> = ({ imageSrc, isLoading }) => {
   return (
     <Box
       component="div"

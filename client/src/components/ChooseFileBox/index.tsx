@@ -3,10 +3,18 @@ import { Box, Button, Typography } from "@mui/material";
 
 interface IChooseFileBoxProps {
   setImageSrc: Dispatch<SetStateAction<string | undefined>>;
+  setImageData: Dispatch<SetStateAction<Uint8ClampedArray | undefined>>;
+  setIsLoading: Dispatch<SetStateAction<boolean | undefined>>;
 }
 
-const ChooseFileBox: FC<IChooseFileBoxProps> = ({ setImageSrc }) => {
+const ChooseFileBox: FC<IChooseFileBoxProps> = ({
+  setImageSrc,
+  setImageData,
+  setIsLoading
+}) => {
   const readImage = (src: string | ArrayBuffer | null) => {
+    setIsLoading(true);
+    setImageSrc(src as string);
     const image = new Image();
     image.onload = () => {
       const canvas = document.createElement("canvas");
@@ -22,10 +30,11 @@ const ChooseFileBox: FC<IChooseFileBoxProps> = ({ setImageSrc }) => {
           image.width,
           image.height
         );
+
+        setImageData(imageData);
       }
     };
-    setImageSrc(src as string);
-    // return src;
+    image.src = src as string;
   };
 
   const getImageFromFile = (evt: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,9 +55,18 @@ const ChooseFileBox: FC<IChooseFileBoxProps> = ({ setImageSrc }) => {
         align="left"
         fontSize="3rem"
         fontWeight={700}
-        sx={{ marginBottom: "4rem" }}
+        sx={{ marginBottom: "4rem", whiteSpace: "pre-line" }}
       >
-        Welcome to the application! Let's try to predict what kind of picture is
+        Welcome to the application!
+      </Typography>
+      <Typography
+        variant="h2"
+        align="left"
+        fontSize="3rem"
+        fontWeight={700}
+        sx={{ marginBottom: "4rem", whiteSpace: "pre-line" }}
+      >
+        Let's try to predict what kind of picture is
         it...
       </Typography>
       <Button variant="contained" color="secondary" component="label">
