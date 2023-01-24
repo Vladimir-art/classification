@@ -1,16 +1,17 @@
 import { Dispatch, FC, SetStateAction } from "react";
 import { Box, Button, Typography } from "@mui/material";
+import { IImageData } from "../../App";
 
 interface IChooseFileBoxProps {
   setImageSrc: Dispatch<SetStateAction<string | undefined>>;
-  setImageData: Dispatch<SetStateAction<Uint8ClampedArray | undefined>>;
+  setImageData: Dispatch<SetStateAction<IImageData | undefined>>;
   setIsLoading: Dispatch<SetStateAction<boolean | undefined>>;
 }
 
 const ChooseFileBox: FC<IChooseFileBoxProps> = ({
   setImageSrc,
   setImageData,
-  setIsLoading
+  setIsLoading,
 }) => {
   const readImage = (src: string | ArrayBuffer | null) => {
     setIsLoading(true);
@@ -31,7 +32,7 @@ const ChooseFileBox: FC<IChooseFileBoxProps> = ({
           image.height
         );
 
-        setImageData(imageData);
+        setImageData({ imageData, width: image.width, height: image.height });
       }
     };
     image.src = src as string;
@@ -66,8 +67,7 @@ const ChooseFileBox: FC<IChooseFileBoxProps> = ({
         fontWeight={700}
         sx={{ marginBottom: "4rem", whiteSpace: "pre-line" }}
       >
-        Let's try to predict what kind of picture is
-        it...
+        Let's try to predict what kind of picture is it...
       </Typography>
       <Button variant="contained" color="secondary" component="label">
         Choose a file

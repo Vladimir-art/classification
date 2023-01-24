@@ -1,11 +1,12 @@
 import axios from "axios";
+import { IImageData } from "../App";
 import { baseUrl } from "./constants";
 
 class ClassificationRequest {
   private async fetch(
     method: string,
     endpoint: string,
-    options: Record<string, Uint8ClampedArray>
+    options: IImageData
   ) {
     return axios({
       method,
@@ -18,10 +19,8 @@ class ClassificationRequest {
     });
   }
 
-  public post(endpoint: string, imageData: Uint8ClampedArray) {
-    return this.fetch("POST", endpoint, {
-      message: imageData,
-    });
+  public post(endpoint: string, imageData: IImageData) {
+    return this.fetch("POST", endpoint, imageData);
   }
 }
 

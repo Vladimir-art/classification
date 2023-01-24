@@ -1,10 +1,11 @@
 import { Box } from "@mui/material";
 import { Dispatch, FC, SetStateAction, useState } from "react";
+import { IImageData } from "../../App";
 import ChooseFileBox from "../ChooseFileBox";
 import DisplayResultBox from "../DisplayResultBox";
 
 interface IMainProps {
-  setImageData: Dispatch<SetStateAction<Uint8ClampedArray | undefined>>;
+  setImageData: Dispatch<SetStateAction<IImageData | undefined>>;
   setIsLoading: Dispatch<SetStateAction<boolean | undefined>>;
   isLoading?: boolean;
 }

@@ -6,12 +6,19 @@ import Main from "./components/Main";
 import Footer from "./components/Footer";
 import classificationRequest from "./utils/fetch";
 
+export interface IImageData {
+  imageData: Uint8ClampedArray,
+  width: number,
+  height: number,
+}
+
 function App() {
-  const [imageData, setImageData] = useState<Uint8ClampedArray>();
+  const [imageData, setImageData] = useState<IImageData>();
   const [classificationResult, setClassificationResult] = useState();
   const [isLoading, setIsLoading] = useState<boolean>();
 
-  const fetchClassification = async (imageData: Uint8ClampedArray) => {
+  const fetchClassification = async (imageData: IImageData) => {
+    console.log('imageData ',imageData)
     const result = await classificationRequest.post("/", imageData);
     console.log("result ", result);
     setClassificationResult(result.data);
@@ -20,7 +27,6 @@ function App() {
 
   useEffect(() => {
     if (!imageData) return;
-    console.log("imageData", imageData);
     fetchClassification(imageData);
   }, [imageData]);
 

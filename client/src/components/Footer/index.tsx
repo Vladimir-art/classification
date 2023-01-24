@@ -30,6 +30,7 @@ const Footer: FC = () => {
             href="https://github.com/Vladimir-art"
             underline="hover"
             color="inherit"
+            target="_blank"
           >
             Vladimir Ermolaev
           </Link>
