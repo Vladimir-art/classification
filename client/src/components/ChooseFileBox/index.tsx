@@ -34,6 +34,7 @@ const ChooseFileBox: FC<IChooseFileBoxProps> = ({
 
         setImageData({ imageData, width: image.width, height: image.height });
       }
+      canvas.remove();
     };
     image.src = src as string;
   };
