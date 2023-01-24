@@ -38,5 +38,5 @@ def process():
     out = model(sample_batch)
     _, index = torch.max(out, 1)
     percentage = torch.nn.functional.softmax(out, dim=1)[0] * 100
-    answer = str(labels[index[0]]).split(', ')[1] + ' with confidence ' + str(round(percentage[index[0]].item(), 1)) + '%'
+    answer = str(labels[index[0]]).split(', ')[1].replace('_', ' ') + ' with confidence ' + str(round(percentage[index[0]].item(), 1)) + '%'
     return answer

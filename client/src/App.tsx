@@ -7,22 +7,21 @@ import Footer from "./components/Footer";
 import classificationRequest from "./utils/fetch";
 
 export interface IImageData {
-  imageData: Uint8ClampedArray,
-  width: number,
-  height: number,
+  imageData: Uint8ClampedArray;
+  width: number;
+  height: number;
 }
 
 function App() {
-  const [imageData, setImageData] = useState<IImageData>();
-  const [classificationResult, setClassificationResult] = useState();
+  const [imageData, setImageData] = useState<IImageData | undefined>();
+  const [classificationResult, setClassificationResult] = useState<string>();
   const [isLoading, setIsLoading] = useState<boolean>();
 
   const fetchClassification = async (imageData: IImageData) => {
-    console.log('imageData ',imageData)
     const result = await classificationRequest.post("/", imageData);
-    console.log("result ", result);
     setClassificationResult(result.data);
     setIsLoading(false);
+    setImageData(undefined);
   };
 
   useEffect(() => {
@@ -37,6 +36,7 @@ function App() {
         setImageData={setImageData}
         isLoading={isLoading}
         setIsLoading={setIsLoading}
+        classificationResult={classificationResult}
       />
       <Footer />
     </div>

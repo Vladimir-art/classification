@@ -8,9 +8,15 @@ interface IMainProps {
   setImageData: Dispatch<SetStateAction<IImageData | undefined>>;
   setIsLoading: Dispatch<SetStateAction<boolean | undefined>>;
   isLoading?: boolean;
+  classificationResult?: string;
 }
 
-const Main: FC<IMainProps> = ({ setImageData, setIsLoading, isLoading }) => {
+const Main: FC<IMainProps> = ({
+  setImageData,
+  setIsLoading,
+  isLoading,
+  classificationResult,
+}) => {
   const [imageSrc, setImageSrc] = useState<string>();
   return (
     <Box component="main" sx={{ display: "flex", padding: "1rem 0" }}>
@@ -19,7 +25,11 @@ const Main: FC<IMainProps> = ({ setImageData, setIsLoading, isLoading }) => {
         setImageData={setImageData}
         setIsLoading={setIsLoading}
       />
-      <DisplayResultBox imageSrc={imageSrc} isLoading={isLoading} />
+      <DisplayResultBox
+        imageSrc={imageSrc}
+        isLoading={isLoading}
+        classificationResult={classificationResult}
+      />
     </Box>
   );
 };
