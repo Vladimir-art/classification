@@ -15,14 +15,10 @@
   border-radius: 8px;
 }
 
-.card:hover {
-  transform: scale(1.04) rotate(1deg);
-}
-
 .circle {
   width: 100px;
   height: 100px;
-  background: radial-gradient(#ef91fa, #8adeff);
+  background: radial-gradient(#8adeff, #ef91fa);
   border-radius: 50%;
   position: absolute;
   animation: move-up6 2s ease-in infinite alternate-reverse;

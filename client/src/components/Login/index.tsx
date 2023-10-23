@@ -7,14 +7,13 @@ const Login: FC = () => {
     <Box
       component="div"
       sx={{
-        width: "80%",
-        height: "100%",
-        background: "rgba(40, 44, 52, .05)",
-        boxShadow: "0 0 10px rgba(0,0,0,0.25)",
-        backdropFilter: "blur(10px)",
+        width: "100%",
+        height: "80%",
         display: "flex",
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
+        position: "absolute",
+        zIndex: "1",
       }}
     >
       <Box component="div" className="card">

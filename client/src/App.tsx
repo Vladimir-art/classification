@@ -34,7 +34,7 @@ function App() {
   return (
     <div className="App">
       <Login />
-      {/* <WelcomePage /> */}
+      <WelcomePage />
       {/* <Header />
       <Main
         setImageData={setImageData}
