@@ -26,7 +26,7 @@ const PopupForm: FC = () => {
         position: "absolute",
         top: "0",
         left: "0",
-        background: "rgba(0,0,0,.5)",
+        background: "rgba(0,0,0,.6)",
         zIndex: "1",
       }}
     >
@@ -80,7 +80,7 @@ const PopupForm: FC = () => {
                 sx={{
                   display: "block",
                   width: "100%",
-                  backgroundColor: "rgba(167, 139, 250, 1)",
+                  backgroundColor: "rgba(239, 145, 250, .8)",
                   paddingTop: "0.75rem",
                   textAlign: "center",
                   color: "rgba(17, 24, 39, 1)",
@@ -88,7 +88,7 @@ const PopupForm: FC = () => {
                   borderRadius: "0.375rem",
                   fontWeight: "600",
                   "&:hover": {
-                    backgroundColor: "rgba(167, 139, 250, .8)",
+                    backgroundColor: "rgba(239, 145, 250, .6)",
                   }
                 }}
               >
