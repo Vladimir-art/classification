@@ -13,17 +13,20 @@ import {
 } from "@mui/material";
 import { FC } from "react";
 
-const Login: FC = () => {
+const PopupForm: FC = () => {
   return (
     <Box
       component="div"
       sx={{
         width: "100%",
-        height: "80%",
+        height: "100%",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
         position: "absolute",
+        top: "0",
+        left: "0",
+        background: "rgba(0,0,0,.5)",
         zIndex: "1",
       }}
     >
@@ -139,4 +142,4 @@ const Login: FC = () => {
   );
 };
 
-export default Login;
+export default PopupForm;
