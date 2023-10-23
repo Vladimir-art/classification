@@ -6,6 +6,7 @@ import Main from "./components/Main";
 import Footer from "./components/Footer";
 import classificationRequest from "./utils/fetch";
 import WelcomePage from "./components/WelcomeScreen";
+import Login from "./components/Login";
 
 export interface IImageData {
   imageData: Uint8ClampedArray;
@@ -32,7 +33,8 @@ function App() {
 
   return (
     <div className="App">
-      <WelcomePage />
+      <Login />
+      {/* <WelcomePage /> */}
       {/* <Header />
       <Main
         setImageData={setImageData}
