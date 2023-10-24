@@ -6,7 +6,8 @@ import Main from "./components/Main";
 import Footer from "./components/Footer";
 import classificationRequest from "./utils/fetch";
 import WelcomePage from "./components/WelcomeScreen";
-import PopupForm from "./components/PopupForm";
+import Login from "./components/Login";
+import Register from "./components/Register";
 
 export interface IImageData {
   imageData: Uint8ClampedArray;
@@ -33,7 +34,8 @@ function App() {
 
   return (
     <div className="App">
-      <PopupForm />
+      {/* <Login /> */}
+      <Register />
       <WelcomePage />
       {/* <Header />
       <Main

@@ -1,6 +1,14 @@
-.card {
+.Login-card {
   width: 400px;
   height: 450px;
+  transition: all 0.2s;
+  position: relative;
+  cursor: pointer;
+}
+
+.Register-card {
+  width: 400px;
+  height: 550px;
   transition: all 0.2s;
   position: relative;
   cursor: pointer;

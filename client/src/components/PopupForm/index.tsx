@@ -13,7 +13,11 @@ import {
 } from "@mui/material";
 import { FC } from "react";
 
-const PopupForm: FC = () => {
+interface IPopupForm {
+  title: string;
+}
+
+const PopupForm: FC<IPopupForm> = ({ title }) => {
   return (
     <Box
       component="div"
@@ -30,15 +34,34 @@ const PopupForm: FC = () => {
         zIndex: "1",
       }}
     >
-      <Box component="div" className="card">
+      <Box component="div" className={`${title}-card`}>
         <Box component="div" className="circle"></Box>
         <Box component="div" className="circle"></Box>
         <Box component="div" className="card-inner">
           <Box component="div" className="form-container">
             <Typography variant="inherit" className="title">
-              Login
+              {title}
             </Typography>
             <FormGroup className="form">
+              {title === "Register" && (
+                <FormControl className="input-group">
+                  <InputLabel htmlFor="name">Name</InputLabel>
+                  <Input
+                    type="text"
+                    name="name"
+                    id="name"
+                    aria-describedby="name-helper-text"
+                    disableUnderline={true}
+                    required
+                  />
+                  <FormHelperText
+                    id="name-helper-text"
+                    style={{ visibility: "hidden" }}
+                  >
+                    We'll never share your email.
+                  </FormHelperText>
+                </FormControl>
+              )}
               <FormControl className="input-group">
                 <InputLabel htmlFor="email">Email</InputLabel>
                 <Input
@@ -89,15 +112,17 @@ const PopupForm: FC = () => {
                   fontWeight: "600",
                   "&:hover": {
                     backgroundColor: "rgba(239, 145, 250, .6)",
-                  }
+                  },
                 }}
               >
-                Sign in
+                {title === "Register" ? "Sign up" : "Sign in"}
               </Button>
             </FormGroup>
             <Box component="div" className="social-message">
               <Box component="div" className="line"></Box>
-              <Typography variant="inherit" className="message">Login with social accounts</Typography>
+              <Typography variant="inherit" className="message">
+                {title} with social accounts
+              </Typography>
               <Box component="div" className="line"></Box>
             </Box>
             <Box component="div" className="social-icons">
@@ -130,9 +155,12 @@ const PopupForm: FC = () => {
               </Button>
             </Box>
             <Typography variant="inherit" className="signup">
-              Don't have an account?&emsp;
+              {title === "Register"
+                ? "Have an account?"
+                : "Don't have an account?"}
+              &emsp;
               <Link rel="noopener noreferrer" href="#" className="">
-                Sign up
+                {title === "Register" ? "Sign in" : "Sign up"}
               </Link>
             </Typography>
           </Box>
