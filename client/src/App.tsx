@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
-import "./components/Antigravity";
 import "./App.css";
+import "./components/Antigravity";
+import React, { useEffect, useState } from "react";
+import { Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Main from "./components/Main";
 import Footer from "./components/Footer";
@@ -34,9 +35,28 @@ function App() {
 
   return (
     <div className="App">
-      {/* <Login /> */}
+      <Routes>
+        <Route path="/" element={<WelcomePage />} />
+        <Route
+          path="/classification"
+          element={
+            <>
+              <Header />
+              <Main
+                setImageData={setImageData}
+                isLoading={isLoading}
+                setIsLoading={setIsLoading}
+                classificationResult={classificationResult}
+              />
+              <Footer />
+            </>
+          }
+        />
+      </Routes>
+      <Login />
       <Register />
-      <WelcomePage />
+      
+
       {/* <Header />
       <Main
         setImageData={setImageData}

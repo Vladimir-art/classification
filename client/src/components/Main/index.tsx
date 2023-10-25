@@ -19,7 +19,10 @@ const Main: FC<IMainProps> = ({
 }) => {
   const [imageSrc, setImageSrc] = useState<string>();
   return (
-    <Box component="main" sx={{ display: "flex", padding: "1rem 0" }}>
+    <Box
+      component="main"
+      sx={{ display: "flex", padding: "1rem 0", width: "100%" }}
+    >
       <ChooseFileBox
         setImageSrc={setImageSrc}
         setImageData={setImageData}
