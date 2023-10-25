@@ -1,8 +1,12 @@
 import { FC } from "react";
 import PopupForm from "../PopupForm";
+import { useAppSelector } from "../../redux/hooks";
+import { isLoginFormOpenedSelector } from "../../redux/selectors";
 
 const Login: FC = () => {
-  return <PopupForm title="Login" />;
+  const isLoginClicked = useAppSelector(isLoginFormOpenedSelector);
+
+  return <PopupForm title="Login" isOpen={isLoginClicked} />;
 };
 
 export default Login;

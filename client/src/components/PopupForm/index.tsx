@@ -15,16 +15,17 @@ import { FC } from "react";
 
 interface IPopupForm {
   title: string;
+  isOpen: boolean;
 }
 
-const PopupForm: FC<IPopupForm> = ({ title }) => {
+const PopupForm: FC<IPopupForm> = ({ title, isOpen }) => {
   return (
     <Box
       component="div"
       sx={{
         width: "100%",
         height: "100%",
-        display: "none",
+        display: isOpen ? "flex" : "none",
         justifyContent: "center",
         alignItems: "center",
         position: "absolute",
@@ -156,7 +157,7 @@ const PopupForm: FC<IPopupForm> = ({ title }) => {
             </Box>
             <Typography variant="inherit" className="signup">
               {title === "Register"
-                ? "Have an account?"
+                ? "Already member?"
                 : "Don't have an account?"}
               &emsp;
               <Link rel="noopener noreferrer" href="#" className="">
