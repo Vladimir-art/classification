@@ -11,14 +11,32 @@ import {
   Link,
   Typography,
 } from "@mui/material";
-import { FC } from "react";
+import { FC, useEffect, useRef } from "react";
 
 interface IPopupForm {
   title: string;
   isOpen: boolean;
+  onClose: () => void;
 }
 
-const PopupForm: FC<IPopupForm> = ({ title, isOpen }) => {
+const PopupForm: FC<IPopupForm> = ({ title, isOpen, onClose }) => {
+  const overlayRef = useRef<HTMLDivElement | null>(null);;
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (overlayRef.current && overlayRef?.current === event.target) {
+        onClose();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("click", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [isOpen, onClose]);
+  
   return (
     <Box
       component="div"
@@ -34,6 +52,7 @@ const PopupForm: FC<IPopupForm> = ({ title, isOpen }) => {
         background: "rgba(0,0,0,.6)",
         zIndex: "1",
       }}
+      ref={overlayRef}
     >
       <Box component="div" className={`${title}-card`}>
         <Box component="div" className="circle"></Box>

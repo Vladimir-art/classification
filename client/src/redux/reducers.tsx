@@ -8,3 +8,12 @@ export const loginFormOpenedReducer = (state = false, action: any) => {
       return state;
   }
 };
+
+export const registerFormOpenedReducer = (state = false, action: any) => {
+  switch (action.type) {
+    case "REGISTER_BUTTON_CLICKED":
+      return !state;
+    default:
+      return state;
+  }
+};

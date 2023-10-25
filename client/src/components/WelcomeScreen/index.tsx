@@ -2,7 +2,7 @@ import { FC } from "react";
 import { Box, Typography } from "@mui/material";
 import { ColorButton } from "./styled/ColorButton";
 import { useAppDispatch } from "../../redux/hooks";
-import { loginButtonClicked } from "../../redux/action";
+import { loginButtonClicked, registerButtonClicked } from "../../redux/action";
 
 const WelcomePage: FC = () => {
   const dispatch = useAppDispatch();
@@ -106,7 +106,7 @@ const WelcomePage: FC = () => {
             </svg>
           </Box>
         </ColorButton>
-        <ColorButton>
+        <ColorButton onClick={() => dispatch(registerButtonClicked)}>
           <Typography variant="body1" fontWeight={700}>
             Signup
           </Typography>

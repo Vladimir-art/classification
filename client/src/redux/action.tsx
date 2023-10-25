@@ -5,3 +5,7 @@ any action that could potentially change the state of our entire application is 
 export const loginButtonClicked = {
   type: "LOGIN_BUTTON_CLICKED",
 };
+
+export const registerButtonClicked = {
+  type: "REGISTER_BUTTON_CLICKED",
+};

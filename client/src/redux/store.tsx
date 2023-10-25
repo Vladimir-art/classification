@@ -3,8 +3,9 @@ import * as reducers from "./reducers";
 
 export const store = configureStore({
   reducer: {
-    isLoginFormOpened: reducers.loginFormOpenedReducer
-  }
+    isLoginFormOpened: reducers.loginFormOpenedReducer,
+    isRegisterFormOpened: reducers.registerFormOpenedReducer,
+  },
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
