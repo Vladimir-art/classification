@@ -27,6 +27,7 @@ interface IPopupForm {
 
 const PopupForm: FC<IPopupForm> = ({ title, isOpen, onClose }) => {
   const overlayRef = useRef<HTMLDivElement | null>(null);
+  const formRef = useRef<HTMLFormElement | null>(null);
   const [errorMessage, setErrorMessage] = useState<IErrorValidation>();
   const [form, setForm] = useState<IFormValidation>({
     email: "",
@@ -40,6 +41,7 @@ const PopupForm: FC<IPopupForm> = ({ title, isOpen, onClose }) => {
     const handleClickOutside = (event: MouseEvent) => {
       if (overlayRef.current && overlayRef?.current === event.target) {
         onClose();
+        formRef.current && formRef.current.reset();
       }
     };
 
@@ -54,6 +56,7 @@ const PopupForm: FC<IPopupForm> = ({ title, isOpen, onClose }) => {
   const switchToAnotherForm = () => {
     dispatch(loginButtonClicked);
     dispatch(registerButtonClicked);
+    formRef.current && formRef.current.reset();
   };
 
   const onSubmitForm = async (event: React.FormEvent) => {
@@ -61,6 +64,7 @@ const PopupForm: FC<IPopupForm> = ({ title, isOpen, onClose }) => {
     const { isValid, errors } = validateForm(form);
     setErrorMessage(errors);
     if (!isValid) return;
+    formRef.current && formRef.current.reset();
   };
 
   const onUpdateField = (event: ChangeEvent<HTMLInputElement>) => {
@@ -96,7 +100,7 @@ const PopupForm: FC<IPopupForm> = ({ title, isOpen, onClose }) => {
             <Typography variant="inherit" className="title">
               {title}
             </Typography>
-            <form className="form" onSubmit={onSubmitForm}>
+            <form className="form" onSubmit={onSubmitForm} ref={formRef}>
               {title === "Register" && (
                 <FormControl className="input-group" sx={{ width: "100%" }}>
                   <InputLabel htmlFor="name">Name</InputLabel>
