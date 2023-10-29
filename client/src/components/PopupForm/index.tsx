@@ -1,3 +1,5 @@
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { loginButtonClicked, registerButtonClicked } from "../../redux/action";
 import "./popupForm.css";
 import "./registerFormStyle.css";
 import {
@@ -13,14 +15,17 @@ import {
 } from "@mui/material";
 import { FC, useEffect, useRef } from "react";
 
+type SigninSignupFormTitle = "Login" | "Register";
+
 interface IPopupForm {
-  title: string;
+  title: SigninSignupFormTitle;
   isOpen: boolean;
   onClose: () => void;
 }
 
 const PopupForm: FC<IPopupForm> = ({ title, isOpen, onClose }) => {
-  const overlayRef = useRef<HTMLDivElement | null>(null);;
+  const overlayRef = useRef<HTMLDivElement | null>(null);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -36,7 +41,12 @@ const PopupForm: FC<IPopupForm> = ({ title, isOpen, onClose }) => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, [isOpen, onClose]);
-  
+
+  const switchToAnotherForm = () => {
+      dispatch(loginButtonClicked);
+      dispatch(registerButtonClicked);
+  };
+
   return (
     <Box
       component="div"
@@ -54,7 +64,7 @@ const PopupForm: FC<IPopupForm> = ({ title, isOpen, onClose }) => {
       }}
       ref={overlayRef}
     >
-      <Box component="div" className={`${title}-card`}>
+      <Box component="div" className={`card ${title}-card`}>
         <Box component="div" className="circle"></Box>
         <Box component="div" className="circle"></Box>
         <Box component="div" className="card-inner">
@@ -179,7 +189,11 @@ const PopupForm: FC<IPopupForm> = ({ title, isOpen, onClose }) => {
                 ? "Already member?"
                 : "Don't have an account?"}
               &emsp;
-              <Link rel="noopener noreferrer" href="#" className="">
+              <Link
+                rel="noopener noreferrer"
+                href="#"
+                onClick={() => switchToAnotherForm()}
+              >
                 {title === "Register" ? "Sign in" : "Sign up"}
               </Link>
             </Typography>
