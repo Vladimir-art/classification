@@ -13,6 +13,9 @@ import {
   Link,
   Typography,
 } from "@mui/material";
+import { useLoginFormValidator } from "../../hook/useLoginFormValidator";
+import { IFormValidation } from "./interface";
+import { IErrorValidation } from "../../hook/interface";
 
 type SigninSignupFormTitle = "Login" | "Register";
 
@@ -24,12 +27,13 @@ interface IPopupForm {
 
 const PopupForm: FC<IPopupForm> = ({ title, isOpen, onClose }) => {
   const overlayRef = useRef<HTMLDivElement | null>(null);
-  const [form, setForm] = useState({
+  const [errorMessage, setErrorMessage] = useState<IErrorValidation>();
+  const [form, setForm] = useState<IFormValidation>({
     email: "",
     password: "",
-    name: "",
-    title 
+    title,
   });
+  const { validateForm } = useLoginFormValidator();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -48,13 +52,15 @@ const PopupForm: FC<IPopupForm> = ({ title, isOpen, onClose }) => {
   }, [isOpen, onClose]);
 
   const switchToAnotherForm = () => {
-      dispatch(loginButtonClicked);
-      dispatch(registerButtonClicked);
+    dispatch(loginButtonClicked);
+    dispatch(registerButtonClicked);
   };
 
-  const onSubmitForm = (event: React.FormEvent) => {
+  const onSubmitForm = async (event: React.FormEvent) => {
     event.preventDefault();
-    alert(JSON.stringify(form, null, 2));
+    const { isValid, errors } = validateForm(form);
+    setErrorMessage(errors);
+    if (!isValid) return;
   };
 
   const onUpdateField = (event: ChangeEvent<HTMLInputElement>) => {
@@ -64,7 +70,7 @@ const PopupForm: FC<IPopupForm> = ({ title, isOpen, onClose }) => {
     };
     setForm(nextFormState);
   };
-
+  console.log(errorMessage);
   return (
     <Box
       component="div"
@@ -92,7 +98,7 @@ const PopupForm: FC<IPopupForm> = ({ title, isOpen, onClose }) => {
             </Typography>
             <form className="form" onSubmit={onSubmitForm}>
               {title === "Register" && (
-                <FormControl className="input-group" sx={{width: "100%"}}>
+                <FormControl className="input-group" sx={{ width: "100%" }}>
                   <InputLabel htmlFor="name">Name</InputLabel>
                   <Input
                     type="text"
@@ -100,7 +106,6 @@ const PopupForm: FC<IPopupForm> = ({ title, isOpen, onClose }) => {
                     id="name"
                     aria-describedby="name-helper-text"
                     disableUnderline={true}
-                    onChange={onUpdateField}
                     required
                   />
                   <FormHelperText
@@ -111,7 +116,7 @@ const PopupForm: FC<IPopupForm> = ({ title, isOpen, onClose }) => {
                   </FormHelperText>
                 </FormControl>
               )}
-              <FormControl className="input-group" sx={{width: "100%"}}>
+              <FormControl className="input-group" sx={{ width: "100%" }}>
                 <InputLabel htmlFor="email">Email</InputLabel>
                 <Input
                   type="email"
@@ -124,12 +129,17 @@ const PopupForm: FC<IPopupForm> = ({ title, isOpen, onClose }) => {
                 />
                 <FormHelperText
                   id="email-helper-text"
-                  style={{ visibility: "hidden" }}
+                  style={{
+                    visibility: errorMessage?.email.error
+                      ? "visible"
+                      : "hidden",
+                    color: "#B22222",
+                  }}
                 >
-                  We'll never share your email.
+                  {errorMessage?.email.message}.
                 </FormHelperText>
               </FormControl>
-              <FormControl className="input-group" sx={{width: "100%"}}>
+              <FormControl className="input-group" sx={{ width: "100%" }}>
                 <InputLabel htmlFor="password">Password</InputLabel>
                 <Input
                   type="password"
@@ -143,9 +153,14 @@ const PopupForm: FC<IPopupForm> = ({ title, isOpen, onClose }) => {
                 />
                 <FormHelperText
                   id="password-helper-text"
-                  style={{ visibility: "hidden" }}
+                  style={{
+                    visibility: errorMessage?.password.error
+                      ? "visible"
+                      : "hidden",
+                    color: "#B22222",
+                  }}
                 >
-                  We'll never share your email.
+                  {errorMessage?.password.message}.
                 </FormHelperText>
               </FormControl>
               <Button
