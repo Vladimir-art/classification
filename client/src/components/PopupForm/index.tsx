@@ -1,4 +1,5 @@
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { ChangeEvent, FC, useEffect, useRef, useState } from "react";
+import { useAppDispatch } from "../../redux/hooks";
 import { loginButtonClicked, registerButtonClicked } from "../../redux/action";
 import "./popupForm.css";
 import "./registerFormStyle.css";
@@ -6,14 +7,12 @@ import {
   Box,
   Button,
   FormControl,
-  FormGroup,
   FormHelperText,
   Input,
   InputLabel,
   Link,
   Typography,
 } from "@mui/material";
-import { FC, useEffect, useRef } from "react";
 
 type SigninSignupFormTitle = "Login" | "Register";
 
@@ -25,6 +24,12 @@ interface IPopupForm {
 
 const PopupForm: FC<IPopupForm> = ({ title, isOpen, onClose }) => {
   const overlayRef = useRef<HTMLDivElement | null>(null);
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+    name: "",
+    title 
+  });
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -49,7 +54,15 @@ const PopupForm: FC<IPopupForm> = ({ title, isOpen, onClose }) => {
 
   const onSubmitForm = (event: React.FormEvent) => {
     event.preventDefault();
-    console.log('Submit!')
+    alert(JSON.stringify(form, null, 2));
+  };
+
+  const onUpdateField = (event: ChangeEvent<HTMLInputElement>) => {
+    const nextFormState = {
+      ...form,
+      [event.target.name]: event.target.value,
+    };
+    setForm(nextFormState);
   };
 
   return (
@@ -87,6 +100,7 @@ const PopupForm: FC<IPopupForm> = ({ title, isOpen, onClose }) => {
                     id="name"
                     aria-describedby="name-helper-text"
                     disableUnderline={true}
+                    onChange={onUpdateField}
                     required
                   />
                   <FormHelperText
@@ -105,6 +119,7 @@ const PopupForm: FC<IPopupForm> = ({ title, isOpen, onClose }) => {
                   id="email"
                   aria-describedby="email-helper-text"
                   disableUnderline={true}
+                  onChange={onUpdateField}
                   required
                 />
                 <FormHelperText
@@ -123,8 +138,8 @@ const PopupForm: FC<IPopupForm> = ({ title, isOpen, onClose }) => {
                   disableUnderline={true}
                   error={true}
                   aria-describedby="password-helper-text"
+                  onChange={onUpdateField}
                   required
-                  color="secondary"
                 />
                 <FormHelperText
                   id="password-helper-text"
