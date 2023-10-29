@@ -47,6 +47,11 @@ const PopupForm: FC<IPopupForm> = ({ title, isOpen, onClose }) => {
       dispatch(registerButtonClicked);
   };
 
+  const onSubmitForm = (event: React.FormEvent) => {
+    event.preventDefault();
+    console.log('Submit!')
+  };
+
   return (
     <Box
       component="div"
@@ -72,9 +77,9 @@ const PopupForm: FC<IPopupForm> = ({ title, isOpen, onClose }) => {
             <Typography variant="inherit" className="title">
               {title}
             </Typography>
-            <FormGroup className="form">
+            <form className="form" onSubmit={onSubmitForm}>
               {title === "Register" && (
-                <FormControl className="input-group">
+                <FormControl className="input-group" sx={{width: "100%"}}>
                   <InputLabel htmlFor="name">Name</InputLabel>
                   <Input
                     type="text"
@@ -92,7 +97,7 @@ const PopupForm: FC<IPopupForm> = ({ title, isOpen, onClose }) => {
                   </FormHelperText>
                 </FormControl>
               )}
-              <FormControl className="input-group">
+              <FormControl className="input-group" sx={{width: "100%"}}>
                 <InputLabel htmlFor="email">Email</InputLabel>
                 <Input
                   type="email"
@@ -109,7 +114,7 @@ const PopupForm: FC<IPopupForm> = ({ title, isOpen, onClose }) => {
                   We'll never share your email.
                 </FormHelperText>
               </FormControl>
-              <FormControl className="input-group">
+              <FormControl className="input-group" sx={{width: "100%"}}>
                 <InputLabel htmlFor="password">Password</InputLabel>
                 <Input
                   type="password"
@@ -130,6 +135,7 @@ const PopupForm: FC<IPopupForm> = ({ title, isOpen, onClose }) => {
               </FormControl>
               <Button
                 className="sign"
+                type="submit"
                 sx={{
                   display: "block",
                   width: "100%",
@@ -147,7 +153,7 @@ const PopupForm: FC<IPopupForm> = ({ title, isOpen, onClose }) => {
               >
                 {title === "Register" ? "Sign up" : "Sign in"}
               </Button>
-            </FormGroup>
+            </form>
             <Box component="div" className="social-message">
               <Box component="div" className="line"></Box>
               <Typography variant="inherit" className="message">
