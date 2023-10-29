@@ -9,6 +9,7 @@ const Header: FC = () => {
     <Box
       component="header"
       sx={{
+        width: "100%",
         display: "flex",
         alignItems: "center",
         padding: "1rem",

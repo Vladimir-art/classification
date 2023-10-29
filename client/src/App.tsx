@@ -1,11 +1,16 @@
-import React, { useEffect, useState } from "react";
-import "./components/Antigravity";
 import "./App.css";
+import "./components/Antigravity";
+import React, { useEffect, useState } from "react";
+import { Routes, Route } from "react-router-dom";
+import { Provider } from "react-redux";
 import Header from "./components/Header";
 import Main from "./components/Main";
 import Footer from "./components/Footer";
 import classificationRequest from "./utils/fetch";
 import WelcomePage from "./components/WelcomeScreen";
+import Login from "./components/Login";
+import Register from "./components/Register";
+import { store } from "./redux/store";
 
 export interface IImageData {
   imageData: Uint8ClampedArray;
@@ -32,15 +37,28 @@ function App() {
 
   return (
     <div className="App">
-      <WelcomePage />
-      {/* <Header />
-      <Main
-        setImageData={setImageData}
-        isLoading={isLoading}
-        setIsLoading={setIsLoading}
-        classificationResult={classificationResult}
-      />
-      <Footer /> */}
+      <Provider store={store}>
+        <Routes>
+          <Route path="/" element={<WelcomePage />} />
+          <Route
+            path="/classification"
+            element={
+              <>
+                <Header />
+                <Main
+                  setImageData={setImageData}
+                  isLoading={isLoading}
+                  setIsLoading={setIsLoading}
+                  classificationResult={classificationResult}
+                />
+                <Footer />
+              </>
+            }
+          />
+        </Routes>
+        <Login />
+        <Register />
+      </Provider>
     </div>
   );
 }

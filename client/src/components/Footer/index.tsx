@@ -15,6 +15,7 @@ const Footer: FC = () => {
     <Box
       component="footer"
       sx={{
+        width: "100%",
         display: "flex",
         alignItems: "center",
         padding: "1rem",
