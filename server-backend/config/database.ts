@@ -1,10 +1,8 @@
 import mongoose from "mongoose";
 
-const { MONGO_URI } = process.env;
-
-const connect = () => {
+const connect = () =>
   mongoose
-    .connect(MONGO_URI!)
+    .connect(process.env.MONGO_URI!)
     .then(() => {
       console.log("Successfully connected to database");
     })
@@ -13,6 +11,5 @@ const connect = () => {
       console.error(error);
       process.exit(1);
     });
-};
 
 export default connect;
