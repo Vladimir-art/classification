@@ -4,6 +4,7 @@ import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 import connect from "./config/database";
 import User from "./model/user";
+import { verifyToken } from "./middleware/auth";
 
 //For env File
 dotenv.config();
@@ -76,6 +77,10 @@ app.post("/login", async (req, res) => {
   } catch (err) {
     console.log(err);
   }
+});
+
+app.post("/classification", verifyToken, (req, res) => {
+  res.status(200).send("Welcome 🙌 ");
 });
 
 app.listen(port, () => {
