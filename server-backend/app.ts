@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import passport from "passport";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
+import session from 'express-session';
 import connect from "./config/database";
 import User from "./model/user";
 import { verifyToken } from "./middleware/auth";
@@ -16,6 +17,15 @@ connect();
 
 const app: Application = express();
 const port = process.env.PORT || 8000;
+
+// Set up the express-session middleware
+app.use(
+  session({
+    secret: process.env.SESSION_KEY as string,
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 
 app.use(express.json());
 app.use(passport.initialize());
