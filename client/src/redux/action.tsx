@@ -9,3 +9,7 @@ export const loginButtonClicked = {
 export const registerButtonClicked = {
   type: "REGISTER_BUTTON_CLICKED",
 };
+
+export const loggedIn = {
+  type: "USER_LOGGED_IN",
+};

@@ -1,6 +1,6 @@
 import { ChangeEvent, FC, useEffect, useRef, useState } from "react";
-import { useAppDispatch } from "../../redux/hooks";
-import { loginButtonClicked, registerButtonClicked } from "../../redux/action";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { loggedIn, loginButtonClicked, registerButtonClicked } from "../../redux/action";
 import "./popupForm.css";
 import "./registerFormStyle.css";
 import {
@@ -16,6 +16,8 @@ import {
 import { useLoginFormValidator } from "../../hook/useLoginFormValidator";
 import { IFormValidation } from "./interface";
 import { IErrorValidation } from "../../hook/interface";
+import loginRequest from "../../utils/loginApi";
+import { setUser } from "../../redux/authSlice";
 
 type SigninSignupFormTitle = "Login" | "Register";
 
@@ -29,10 +31,10 @@ const PopupForm: FC<IPopupForm> = ({ title, isOpen, onClose }) => {
   const overlayRef = useRef<HTMLDivElement | null>(null);
   const formRef = useRef<HTMLFormElement | null>(null);
   const [errorMessage, setErrorMessage] = useState<IErrorValidation>();
+  const [registerError, setRegisterError] = useState<string>("");
   const [form, setForm] = useState<IFormValidation>({
     email: "",
     password: "",
-    title,
   });
   const { validateForm } = useLoginFormValidator();
   const dispatch = useAppDispatch();
@@ -41,6 +43,7 @@ const PopupForm: FC<IPopupForm> = ({ title, isOpen, onClose }) => {
     const handleClickOutside = (event: MouseEvent) => {
       if (overlayRef.current && overlayRef?.current === event.target) {
         onClose();
+        setRegisterError("");
         formRef.current && formRef.current.reset();
       }
     };
@@ -56,6 +59,7 @@ const PopupForm: FC<IPopupForm> = ({ title, isOpen, onClose }) => {
   const switchToAnotherForm = () => {
     dispatch(loginButtonClicked);
     dispatch(registerButtonClicked);
+    setRegisterError("");
     formRef.current && formRef.current.reset();
   };
 
@@ -64,6 +68,15 @@ const PopupForm: FC<IPopupForm> = ({ title, isOpen, onClose }) => {
     const { isValid, errors } = validateForm(form);
     setErrorMessage(errors);
     if (!isValid) return;
+    const response = await loginRequest.post(`/${title.toLowerCase()}`, form);
+    if (response.error) {
+      setRegisterError(response.error);
+      return;
+    }
+    const authResponse = await loginRequest.authPost("/classification", {
+      token: response.token,
+    });
+    dispatch(setUser(authResponse));
     formRef.current && formRef.current.reset();
   };
 
@@ -74,7 +87,7 @@ const PopupForm: FC<IPopupForm> = ({ title, isOpen, onClose }) => {
     };
     setForm(nextFormState);
   };
-  console.log(errorMessage);
+// console.log(user || "undefined")
   return (
     <Box
       component="div"
@@ -110,6 +123,7 @@ const PopupForm: FC<IPopupForm> = ({ title, isOpen, onClose }) => {
                     id="name"
                     aria-describedby="name-helper-text"
                     disableUnderline={true}
+                    onChange={onUpdateField}
                     required
                   />
                   <FormHelperText
@@ -167,6 +181,17 @@ const PopupForm: FC<IPopupForm> = ({ title, isOpen, onClose }) => {
                   {errorMessage?.password.message}.
                 </FormHelperText>
               </FormControl>
+              <Box
+                component={"span"}
+                sx={{
+                  visibility: registerError ? "visible" : "hidden",
+                  height: "15px",
+                  color: "#B22222",
+                  marginBottom: "5px",
+                }}
+              >
+                {registerError}.
+              </Box>
               <Button
                 className="sign"
                 type="submit"

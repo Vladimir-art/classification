@@ -11,6 +11,7 @@ import WelcomePage from "./components/WelcomeScreen";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import { store } from "./redux/store";
+import { useAppSelector } from "./redux/hooks";
 
 export interface IImageData {
   imageData: Uint8ClampedArray;
@@ -37,28 +38,26 @@ function App() {
 
   return (
     <div className="App">
-      <Provider store={store}>
-        <Routes>
-          <Route path="/" element={<WelcomePage />} />
-          <Route
-            path="/classification"
-            element={
-              <>
-                <Header />
-                <Main
-                  setImageData={setImageData}
-                  isLoading={isLoading}
-                  setIsLoading={setIsLoading}
-                  classificationResult={classificationResult}
-                />
-                <Footer />
-              </>
-            }
-          />
-        </Routes>
-        <Login />
-        <Register />
-      </Provider>
+      <Routes>
+        <Route path="/" element={<WelcomePage />} />
+        <Route
+          path="/classification"
+          element={
+            <>
+              <Header />
+              <Main
+                setImageData={setImageData}
+                isLoading={isLoading}
+                setIsLoading={setIsLoading}
+                classificationResult={classificationResult}
+              />
+              <Footer />
+            </>
+          }
+        />
+      </Routes>
+      <Login />
+      <Register />
     </div>
   );
 }

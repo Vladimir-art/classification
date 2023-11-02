@@ -3,12 +3,12 @@ import dotenv from "dotenv";
 import passport from "passport";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
-import session from 'express-session';
+import cors from "cors";
+import session from "express-session";
 import connect from "./config/database";
 import User from "./model/user";
 import { verifyToken } from "./middleware/auth";
 import { setupGitHubStrategy } from "./strategies/passport-github-strategy";
-
 
 //For env File
 dotenv.config();
@@ -17,6 +17,7 @@ connect();
 
 const app: Application = express();
 const port = process.env.PORT || 8000;
+app.use(cors({ origin: true }));
 
 // Set up the express-session middleware
 app.use(
@@ -71,7 +72,7 @@ app.post("/register", async (req, res) => {
       }
     );
     user.token = token;
-    res.status(200).json(user);
+    res.status(200).json({ token: user.token });
   } catch (err) {
     console.log(err);
   }
@@ -96,7 +97,7 @@ app.post("/login", async (req, res) => {
         }
       );
       user.token = token;
-      res.status(200).json(user);
+      res.status(200).json({ token: user.token });
     }
     res.status(400).send("Invalid Credentials");
   } catch (err) {
@@ -104,17 +105,20 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.post("/classification", verifyToken, (req, res) => {
-  res.status(200).send("Welcome 🙌 ");
+app.post("/classification", verifyToken, async (req, res) => {
+  const decodedUser = JSON.parse(JSON.stringify(req.user));
+  const user = await User.findById(decodedUser.user_id);
+  if (!user) return res.status(404).send("No requested user");
+  res.status(200).send({ name: user.name, email: user.email });
 });
 
-app.get('/auth/github', passport.authenticate('github'));
+app.get("/auth/github", passport.authenticate("github"));
 
 app.get(
-  '/auth/github/callback',
-  passport.authenticate('github', {
-    successRedirect: '/classification',
-    failureRedirect: '/',
+  "/auth/github/callback",
+  passport.authenticate("github", {
+    successRedirect: "/classification",
+    failureRedirect: "/",
   })
 );
 

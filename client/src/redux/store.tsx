@@ -1,10 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import * as reducers from "./reducers";
+import authReducer from "./authSlice";
 
 export const store = configureStore({
   reducer: {
     isLoginFormOpened: reducers.loginFormOpenedReducer,
     isRegisterFormOpened: reducers.registerFormOpenedReducer,
+    isUserLoggedIn: reducers.registerUserLoggedIn,
+    auth: authReducer,
   },
 });
 
