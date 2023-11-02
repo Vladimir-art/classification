@@ -1,10 +1,13 @@
 import express, { Application } from "express";
 import dotenv from "dotenv";
+import passport from "passport";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 import connect from "./config/database";
 import User from "./model/user";
 import { verifyToken } from "./middleware/auth";
+import { setupGitHubStrategy } from "./strategies/passport-github-strategy";
+
 
 //For env File
 dotenv.config();
@@ -15,6 +18,18 @@ const app: Application = express();
 const port = process.env.PORT || 8000;
 
 app.use(express.json());
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
+
+passport.deserializeUser((obj: any, done) => {
+  done(null, obj);
+});
+
+setupGitHubStrategy();
 
 app.post("/register", async (req, res) => {
   try {
@@ -82,6 +97,20 @@ app.post("/login", async (req, res) => {
 app.post("/classification", verifyToken, (req, res) => {
   res.status(200).send("Welcome 🙌 ");
 });
+
+app.get("/auth/google", passport.authenticate("google"), function (req, res) {
+  // The request will be redirected to Google for authentication, so
+  // this function will not be called.
+});
+
+app.get(
+  "/auth/google/callback",
+  passport.authenticate("google", { failureRedirect: "/login" }),
+  function (req, res) {
+    // Successful authentication, redirect home.
+    res.redirect("/classification");
+  }
+);
 
 app.listen(port, () => {
   console.log(`Server is Fire at http://localhost:${port}`);

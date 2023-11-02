@@ -6,7 +6,6 @@ interface CustomRequest extends Request {
 }
 
 export const verifyToken = (req: CustomRequest, res: Response, next: NextFunction) => {
-  console.log(JSON.stringify(req));
   const token =
     req.body.token || req.query.token || req.headers["x-access-token"];
 
