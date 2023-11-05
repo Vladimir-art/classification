@@ -1,6 +1,6 @@
 import { ChangeEvent, FC, useEffect, useRef, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { loggedIn, loginButtonClicked, registerButtonClicked } from "../../redux/action";
+import { useAppDispatch } from "../../redux/hooks";
+import { loginButtonClicked, registerButtonClicked } from "../../redux/action";
 import "./popupForm.css";
 import "./registerFormStyle.css";
 import {
@@ -18,6 +18,7 @@ import { IFormValidation } from "./interface";
 import { IErrorValidation } from "../../hook/interface";
 import loginRequest from "../../utils/loginApi";
 import { setUser } from "../../redux/authSlice";
+import { redirect, useNavigate } from "react-router-dom";
 
 type SigninSignupFormTitle = "Login" | "Register";
 
@@ -37,6 +38,7 @@ const PopupForm: FC<IPopupForm> = ({ title, isOpen, onClose }) => {
     password: "",
   });
   const { validateForm } = useLoginFormValidator();
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -78,6 +80,12 @@ const PopupForm: FC<IPopupForm> = ({ title, isOpen, onClose }) => {
     });
     dispatch(setUser(authResponse));
     formRef.current && formRef.current.reset();
+    if (title === "Register") {
+      dispatch(registerButtonClicked);
+      return;
+    }
+    dispatch(loginButtonClicked);
+    navigate("/classification");
   };
 
   const onUpdateField = (event: ChangeEvent<HTMLInputElement>) => {
@@ -87,7 +95,7 @@ const PopupForm: FC<IPopupForm> = ({ title, isOpen, onClose }) => {
     };
     setForm(nextFormState);
   };
-// console.log(user || "undefined")
+
   return (
     <Box
       component="div"

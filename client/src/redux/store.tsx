@@ -6,7 +6,6 @@ export const store = configureStore({
   reducer: {
     isLoginFormOpened: reducers.loginFormOpenedReducer,
     isRegisterFormOpened: reducers.registerFormOpenedReducer,
-    isUserLoggedIn: reducers.registerUserLoggedIn,
     auth: authReducer,
   },
 });

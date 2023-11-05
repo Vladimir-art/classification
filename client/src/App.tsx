@@ -1,7 +1,7 @@
 import "./App.css";
 import "./components/Antigravity";
 import React, { useEffect, useState } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import { Provider } from "react-redux";
 import Header from "./components/Header";
 import Main from "./components/Main";
@@ -23,6 +23,9 @@ function App() {
   const [imageData, setImageData] = useState<IImageData | undefined>();
   const [classificationResult, setClassificationResult] = useState<string>();
   const [isLoading, setIsLoading] = useState<boolean>();
+  const user = useAppSelector((state) => state.auth.user);
+  const navigate = useNavigate();
+  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
 
   const fetchClassification = async (imageData: IImageData) => {
     const result = await classificationRequest.post("/", imageData);
@@ -35,26 +38,29 @@ function App() {
     if (!imageData) return;
     fetchClassification(imageData);
   }, [imageData]);
-
+  
   return (
     <div className="App">
       <Routes>
         <Route path="/" element={<WelcomePage />} />
-        <Route
-          path="/classification"
-          element={
-            <>
-              <Header />
-              <Main
-                setImageData={setImageData}
-                isLoading={isLoading}
-                setIsLoading={setIsLoading}
-                classificationResult={classificationResult}
-              />
-              <Footer />
-            </>
-          }
-        />
+        {isAuthenticated && (
+          <Route
+            path="/classification"
+            element={
+              <>
+                <Header />
+                <Main
+                  user={user}
+                  setImageData={setImageData}
+                  isLoading={isLoading}
+                  setIsLoading={setIsLoading}
+                  classificationResult={classificationResult}
+                />
+                <Footer />
+              </>
+            }
+          />
+        )}
       </Routes>
       <Login />
       <Register />

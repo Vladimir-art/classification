@@ -17,12 +17,3 @@ export const registerFormOpenedReducer = (state = false, action: any) => {
       return state;
   }
 };
-
-export const registerUserLoggedIn = (state = false, action: any) => {
-  switch (action.type) {
-    case "USER_LOGGED_IN":
-      return true;
-    default:
-      return state;
-  }
-};

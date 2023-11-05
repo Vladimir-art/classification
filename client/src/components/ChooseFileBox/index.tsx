@@ -6,9 +6,11 @@ interface IChooseFileBoxProps {
   setImageSrc: Dispatch<SetStateAction<string | undefined>>;
   setImageData: Dispatch<SetStateAction<IImageData | undefined>>;
   setIsLoading: Dispatch<SetStateAction<boolean | undefined>>;
+  userName?: string;
 }
 
 const ChooseFileBox: FC<IChooseFileBoxProps> = ({
+  userName,
   setImageSrc,
   setImageData,
   setIsLoading,
@@ -59,7 +61,7 @@ const ChooseFileBox: FC<IChooseFileBoxProps> = ({
         fontWeight={700}
         sx={{ marginBottom: "4rem", whiteSpace: "pre-line" }}
       >
-        Welcome to the application!
+        Welcome {userName ? userName : "to the application!"}
       </Typography>
       <Typography
         variant="h2"
