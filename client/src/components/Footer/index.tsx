@@ -5,7 +5,6 @@ import {
   List,
   ListItemButton,
   ListItemIcon,
-  ListItemText,
 } from "@mui/material";
 import gitLogo from "../../image/git.png";
 import ImageBox from "../commonComponents/ImageBox";

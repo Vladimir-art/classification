@@ -17,11 +17,10 @@ const app: Application = express();
 const port = process.env.PORT || 8000;
 const corsOptions = {
   origin: "http://localhost:3000",
-  credentials: true, // Allow credentials (cookies)
+  credentials: true,
   methods: "GET,POST,PUT,DELETE",
 };
 
-// Set up the express-session middleware
 app.use(
   session({
     secret: process.env.SESSION_KEY as string,
@@ -35,8 +34,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(cors(corsOptions));
 
-// setupGitHubStrategy();
-
 app.post("/register", async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -44,15 +41,11 @@ app.post("/register", async (req, res) => {
     if (!(email && password && name)) {
       res.status(400).send("All input is required");
     }
-
     const oldUser = await User.findOne({ email });
-
     if (oldUser) {
       return res.status(409).send("User Already Exist. Please Login");
     }
-
     const encryptedPassword = await bcryptjs.hash(password, 10);
-
     const user = await User.create({
       name,
       email: email.toLowerCase(),
