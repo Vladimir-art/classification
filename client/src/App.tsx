@@ -11,7 +11,10 @@ import WelcomePage from "./components/WelcomeScreen";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import { store } from "./redux/store";
-import { useAppSelector } from "./redux/hooks";
+import { useAppDispatch, useAppSelector } from "./redux/hooks";
+import axios from "axios";
+import { loginUrl } from "./utils/constants";
+import { setUser } from "./redux/authSlice";
 
 export interface IImageData {
   imageData: Uint8ClampedArray;
@@ -24,8 +27,9 @@ function App() {
   const [classificationResult, setClassificationResult] = useState<string>();
   const [isLoading, setIsLoading] = useState<boolean>();
   const user = useAppSelector((state) => state.auth.user);
-  const navigate = useNavigate();
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const fetchClassification = async (imageData: IImageData) => {
     const result = await classificationRequest.post("/", imageData);
@@ -35,10 +39,38 @@ function App() {
   };
 
   useEffect(() => {
+    const getUser = async () => {
+      axios(`${loginUrl}/login/success`, {
+        method: "GET",
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Credentials": true,
+        },
+      })
+        .then((res) => {
+          if (res.status === 200) {
+            return res;
+          }
+          throw new Error("authentication has been failed!");
+        })
+        .then((res) => {
+          dispatch(setUser(res.data));
+          navigate("/classification");
+        })
+        .catch((err) => {
+          console.log(err);
+          navigate("/");
+        });
+    };
+    getUser();
+  }, []);
+
+  useEffect(() => {
     if (!imageData) return;
     fetchClassification(imageData);
   }, [imageData]);
-  
+
   return (
     <div className="App">
       <Routes>

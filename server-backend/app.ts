@@ -107,20 +107,24 @@ app.post("/classification", verifyToken, async (req, res) => {
   res.status(200).send({ name: user.name, email: user.email });
 });
 
-// app.options("/auth/github", cors(corsOptions));
+app.get("/login/success", (req, res) => {
+  if (req.user) {
+    const githubUser = JSON.parse(JSON.stringify(req.user));
+    res.status(200).send({
+      name: githubUser.displayName,
+      email: githubUser.profileUrl,
+    });
+  }
+});
+
 app.get("/auth/github", passport.authenticate("github"));
 
 app.get(
   "/auth/github/callback",
   passport.authenticate("github", {
-    failureRedirect: "/",
-  }),
-  (req, res) => {
-    const githunUser = JSON.parse(JSON.stringify(req.user));
-    res
-      .status(200)
-      .send({ name: githunUser.displayName, email: githunUser.profileUrl });
-  }
+    failureRedirect: "http://localhost:3000/",
+    successRedirect: "http://localhost:3000/",
+  })
 );
 
 app.listen(port, () => {
