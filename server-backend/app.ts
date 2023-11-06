@@ -1,5 +1,6 @@
-import express, { Application } from "express";
 import dotenv from "dotenv";
+dotenv.config();
+import express, { Application } from "express";
 import passport from "passport";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -8,16 +9,17 @@ import session from "express-session";
 import connect from "./config/database";
 import User from "./model/user";
 import { verifyToken } from "./middleware/auth";
-import { setupGitHubStrategy } from "./strategies/passport-github-strategy";
-
-//For env File
-dotenv.config();
+import "./strategies/passport-github-strategy";
 
 connect();
 
 const app: Application = express();
 const port = process.env.PORT || 8000;
-app.use(cors({ origin: true }));
+const corsOptions = {
+  origin: "http://localhost:3000",
+  credentials: true, // Allow credentials (cookies)
+  methods: "GET,POST,PUT,DELETE",
+};
 
 // Set up the express-session middleware
 app.use(
@@ -31,16 +33,9 @@ app.use(
 app.use(express.json());
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(cors(corsOptions));
 
-passport.serializeUser((user, done) => {
-  done(null, user);
-});
-
-passport.deserializeUser((obj: any, done) => {
-  done(null, obj);
-});
-
-setupGitHubStrategy();
+// setupGitHubStrategy();
 
 app.post("/register", async (req, res) => {
   try {
@@ -112,14 +107,20 @@ app.post("/classification", verifyToken, async (req, res) => {
   res.status(200).send({ name: user.name, email: user.email });
 });
 
+// app.options("/auth/github", cors(corsOptions));
 app.get("/auth/github", passport.authenticate("github"));
 
 app.get(
   "/auth/github/callback",
   passport.authenticate("github", {
-    successRedirect: "/classification",
     failureRedirect: "/",
-  })
+  }),
+  (req, res) => {
+    const githunUser = JSON.parse(JSON.stringify(req.user));
+    res
+      .status(200)
+      .send({ name: githunUser.displayName, email: githunUser.profileUrl });
+  }
 );
 
 app.listen(port, () => {

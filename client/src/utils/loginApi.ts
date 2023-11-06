@@ -1,6 +1,9 @@
 import axios from "axios";
 import { loginUrl } from "./constants";
-import { data } from "jquery";
+
+const instance = axios.create({
+  withCredentials: true,
+});
 
 interface ILoginOptions {
   email: string;
@@ -18,7 +21,7 @@ class LoginRequest {
     endpoint: string,
     options?: ILoginOptions | ISuccessLoginOptions
   ) {
-    return axios({
+    return instance({
       method,
       baseURL: loginUrl,
       url: endpoint,
@@ -47,7 +50,7 @@ class LoginRequest {
   }
 
   public getGithubAuth(endpoint: string) {
-    return this.fetch("GET", endpoint);
+    return this.fetch("GET", endpoint).then(data => console.log("github", data))
   }
 }
 
