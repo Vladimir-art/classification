@@ -1,13 +1,13 @@
 .card {
   width: 400px;
-  height: 450px;
+  height: 465px;
   transition: all 0.8s ease-in;
   position: relative;
   cursor: pointer;
 }
 
 .Register-card {
-  height: 550px;
+  height: 565px;
   transition: all 0.2s;
 }
 

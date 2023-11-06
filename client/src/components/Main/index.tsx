@@ -9,9 +9,14 @@ interface IMainProps {
   setIsLoading: Dispatch<SetStateAction<boolean | undefined>>;
   isLoading?: boolean;
   classificationResult?: string;
+  user: {
+    email: string;
+    name: string;
+  } | null;
 }
 
 const Main: FC<IMainProps> = ({
+  user,
   setImageData,
   setIsLoading,
   isLoading,
@@ -24,6 +29,7 @@ const Main: FC<IMainProps> = ({
       sx={{ display: "flex", padding: "1rem 0", width: "100%" }}
     >
       <ChooseFileBox
+        userName={user?.name}
         setImageSrc={setImageSrc}
         setImageData={setImageData}
         setIsLoading={setIsLoading}
