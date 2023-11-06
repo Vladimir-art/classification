@@ -94,7 +94,7 @@ app.post("/login", async (req, res) => {
       user.token = token;
       res.status(200).json({ token: user.token });
     }
-    res.status(400).send("Invalid Credentials");
+    res.status(400).send("Account could not found. Please SignUp");
   } catch (err) {
     console.log(err);
   }
@@ -126,6 +126,15 @@ app.get(
     successRedirect: "http://localhost:3000/",
   })
 );
+
+app.get("/logout", (req, res) => {
+  req.logout((err) => {
+    if (err) {
+      return res.status(500).send("Error during logout");
+    }
+  });
+  res.redirect("http://localhost:3000/");
+});
 
 app.listen(port, () => {
   console.log(`Server is Fire at http://localhost:${port}`);

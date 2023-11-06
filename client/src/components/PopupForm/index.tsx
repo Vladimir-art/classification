@@ -79,13 +79,14 @@ const PopupForm: FC<IPopupForm> = ({ title, isOpen, onClose }) => {
     const authResponse = await loginRequest.authPost("/classification", {
       token: response.token,
     });
+    console.log("authResponse", authResponse);
     dispatch(setUser(authResponse));
     formRef.current && formRef.current.reset();
     if (title === "Register") {
       dispatch(registerButtonClicked);
-      return;
+    } else {
+      dispatch(loginButtonClicked);
     }
-    dispatch(loginButtonClicked);
     navigate("/classification");
   };
 

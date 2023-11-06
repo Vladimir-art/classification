@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Box, Typography } from "@mui/material";
-import { ColorButton } from "./styled/ColorButton";
+import { ColorButton } from "../commonComponents/ColorButton";
 import { useAppDispatch } from "../../redux/hooks";
 import { loginButtonClicked, registerButtonClicked } from "../../redux/action";
 

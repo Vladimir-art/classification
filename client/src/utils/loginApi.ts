@@ -49,8 +49,8 @@ class LoginRequest {
     return this.fetch("POST", endpoint, options);
   }
 
-  public getGithubAuth(endpoint: string) {
-    return this.fetch("GET", endpoint).then(data => console.log("github", data))
+  public logout(endpoint: string) {
+    return this.fetch("GET", endpoint);
   }
 }
 
